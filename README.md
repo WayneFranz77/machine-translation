@@ -235,7 +235,7 @@ which automatically stops training when validation performance stops improving.
 Clone the repository:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/machine-translation.git
+git clone https://github.com/WayneFranz77/machine-translation.git
 ```
 
 Navigate into the project:
