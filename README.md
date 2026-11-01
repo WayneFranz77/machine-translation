@@ -1,117 +1,111 @@
-# Machine Translation with Seq2Seq Neural Networks
+# 🌍 Machine Translation with Seq2Seq Neural Networks
 
-An English-to-Spanish Neural Machine Translation (NMT) system built using TensorFlow, Keras, NumPy, and a Seq2Seq Encoder-Decoder architecture with LSTM networks.
+A Neural Machine Translation (NMT) system that translates English to Spanish using TensorFlow, Keras, and a Seq2Seq Encoder-Decoder architecture built with LSTM neural networks.
 
-This project began as the Codecademy Machine Translation capstone project and was extended significantly with additional functionality, performance improvements, a modern Keras workflow, an interactive command-line interface, and custom sentence translation capabilities.
+Originally developed as part of the Codecademy Machine Translation project, this application has been extended into a complete machine learning portfolio project with:
+
+- Interactive command-line translator
+- Streamlit web application
+- Statistics dashboard
+- Unknown vocabulary detection
+- Custom sentence translation
+- Early stopping
+- Modern Keras model persistence (`.keras`)
+- Improved preprocessing and tokenization
 
 ---
 
-## Features
+# 🚀 Features
 
-### Neural Machine Translation
+## Neural Machine Translation
 
-Translate English text into Spanish using:
+Translate English sentences into Spanish using:
 
 - Seq2Seq architecture
-- Encoder-Decoder neural networks
-- LSTM layers
+- Encoder-Decoder design
+- LSTM neural networks
 - Teacher forcing
-- TensorFlow and Keras
-
----
-
-### Interactive Translator
-
-Translate custom English sentences directly from the command line.
+- TensorFlow / Keras
 
 Example:
 
 ```text
-English: Who?
-Spanish: ¿Quién?
-```
-
-```text
-English: Run!
-Spanish: ¡Órale!
-```
-
----
-
-### Dataset Translation Testing
-
-Test translations against examples from the training dataset.
-
-Menu option:
-
-```text
-2 - Test dataset examples
-```
-
----
-
-### Model Statistics Dashboard
-
-View model metadata directly from the application.
-
-Example:
-
-```text
-==================================================
-MODEL STATISTICS
-==================================================
-
-Encoder vocabulary : 2516
-Decoder vocabulary : 5302
-
-Maximum input tokens : 8
-Maximum output tokens: 17
-
-Latent dimension : 256
-
-Model size (MB): 75.52
-```
-
----
-
-### Unknown Vocabulary Detection
-
-The translator warns when words are not present in the training vocabulary.
-
-Example:
-
-```text
-English: My name is Wayne
-
-Warning: 'Wayne' not found in training vocabulary.
-```
-
----
-
-### Improved Tokenization
-
-Custom input now uses the same regex tokenization strategy used during preprocessing.
-
-Example:
-
-```text
+Input:
 Who?
+
+Output:
+¿Quién?
 ```
-
-becomes:
-
-```python
-['Who', '?']
-```
-
-This significantly improved custom translation accuracy.
 
 ---
 
-## Project Structure
+## Interactive Command-Line Application
+
+Launch the translator directly from the terminal:
+
+```bash
+python src/translate.py
+```
+
+Features:
+
+```text
+1 - Translate custom text
+2 - Test dataset examples
+3 - Show model statistics
+4 - Exit
+```
+
+---
+
+## 🌐 Streamlit Web Application
+
+The project includes a web-based interface powered by Streamlit.
+
+Run:
+
+```bash
+streamlit run streamlit_app.py
+```
+
+The application launches in your browser and allows users to:
+
+- Enter English text
+- Generate Spanish translations
+- View model statistics
+- Interact with the translator without using a terminal
+
+---
+
+# 📸 Application Screenshots
+
+## Home Page
+
+![Home Page](assets/home-page.png)
+
+---
+
+## Translation Example
+
+![Translation Example](assets/translation-example.png)
+
+---
+
+## Model Statistics
+
+![Model Statistics](assets/model-statistics.png)
+
+---
+
+# 📂 Project Structure
 
 ```text
 machine-translation/
+│
+├── assets/
+│   ├── home-page.png
+│   ├── translation-example.png
+│   └── model-statistics.png
 │
 ├── data/
 │   └── spa.txt
@@ -127,6 +121,8 @@ machine-translation/
 │
 ├── tests/
 │
+├── streamlit_app.py
+│
 ├── README.md
 ├── LICENSE
 ├── requirements.txt
@@ -135,7 +131,46 @@ machine-translation/
 
 ---
 
-## Dataset
+# 🧠 Model Architecture
+
+## Encoder
+
+```text
+Input Sequence
+      ↓
+LSTM (256 units)
+      ↓
+Hidden State
+Cell State
+```
+
+## Decoder
+
+```text
+Start Token
+      ↓
+LSTM (256 units)
+      ↓
+Dense Softmax Layer
+      ↓
+Predicted Output Token
+```
+
+### Total Parameters
+
+```text
+9,894,582
+```
+
+### Latent Dimension
+
+```python
+latent_dim = 256
+```
+
+---
+
+# 📊 Dataset
 
 Source:
 
@@ -156,46 +191,13 @@ Training Data Used:
 Vocabulary Learned:
 
 ```text
-Input Vocabulary  : 2516 tokens
-Output Vocabulary : 5302 tokens
+Encoder Vocabulary : 2516 words
+Decoder Vocabulary : 5302 words
 ```
 
 ---
 
-## Model Architecture
-
-### Encoder
-
-```text
-Input Sequence
-      ↓
-LSTM (256 units)
-      ↓
-Hidden State
-Cell State
-```
-
-### Decoder
-
-```text
-Previous Token
-      ↓
-LSTM (256 units)
-      ↓
-Dense Softmax Layer
-      ↓
-Next Token Prediction
-```
-
-### Total Parameters
-
-```text
-9,894,582
-```
-
----
-
-## Training Configuration
+# ⚙️ Training Configuration
 
 ```python
 latent_dim = 256
@@ -203,7 +205,7 @@ batch_size = 50
 epochs = 100
 ```
 
-Training includes:
+Training uses:
 
 ```python
 EarlyStopping(
@@ -213,29 +215,69 @@ EarlyStopping(
 )
 ```
 
-which automatically stops training when validation performance stops improving.
+This automatically stops training once validation performance stops improving.
 
 ---
 
-## Technologies Used
+# 📈 Model Statistics Dashboard
+
+The application provides real-time model information.
+
+Example:
+
+```text
+Encoder vocabulary : 2516
+Decoder vocabulary : 5302
+
+Maximum input tokens : 8
+Maximum output tokens : 17
+
+Latent dimension : 256
+
+Model size : 75.52 MB
+```
+
+---
+
+# 🔍 Unknown Vocabulary Detection
+
+Custom translation mode detects words that were not present in the training dataset.
+
+Example:
+
+```text
+Input:
+My name is Wayne
+
+Warning:
+'Wayne' not found in training vocabulary
+```
+
+This helps explain translation limitations.
+
+---
+
+# 🛠 Technologies Used
 
 - Python 3
 - TensorFlow
 - Keras
 - NumPy
-- Neural Networks
-- LSTM Networks
-- Seq2Seq Models
+- Streamlit
 - Natural Language Processing (NLP)
+- Seq2Seq Neural Networks
+- LSTM Networks
+- Machine Learning
+- Deep Learning
 
 ---
 
-## Installation
+# 💻 Installation
 
 Clone the repository:
 
 ```bash
-git clone https://github.com/WayneFranz77/machine-translation.git
+git clone https://github.com/YOUR_USERNAME/machine-translation.git
 ```
 
 Navigate into the project:
@@ -250,7 +292,7 @@ Create a virtual environment:
 python -m venv venv
 ```
 
-Activate the virtual environment:
+Activate:
 
 ### Windows
 
@@ -266,15 +308,15 @@ pip install -r requirements.txt
 
 ---
 
-## Usage
+# ▶️ Usage
 
-### Train Model
+## Train the Model
 
 ```bash
 python src/train.py
 ```
 
-The trained model will be saved as:
+Output:
 
 ```text
 models/training_model.keras
@@ -282,38 +324,31 @@ models/training_model.keras
 
 ---
 
-### Run Translator
+## Run CLI Translator
 
 ```bash
 python src/translate.py
 ```
 
-Application menu:
+---
 
-```text
-==================================================
- MACHINE TRANSLATION SYSTEM
-==================================================
+## Run Web Application
 
-1 - Translate custom text
-2 - Test dataset examples
-3 - Show model statistics
-4 - Exit
+```bash
+streamlit run streamlit_app.py
 ```
 
 ---
 
-## Example Results
+# 🧪 Example Results
 
-### Custom Translation
-
-Input:
+### Input
 
 ```text
 Who?
 ```
 
-Output:
+### Translation
 
 ```text
 ¿Quién?
@@ -321,13 +356,13 @@ Output:
 
 ---
 
-Input:
+### Input
 
 ```text
 Run!
 ```
 
-Output:
+### Translation
 
 ```text
 ¡Órale!
@@ -335,13 +370,13 @@ Output:
 
 ---
 
-Input:
+### Input
 
 ```text
 How are you?
 ```
 
-Output:
+### Translation
 
 ```text
 ¿Estabas aquí?
@@ -349,67 +384,49 @@ Output:
 
 ---
 
-## Challenges Encountered
-
-During development the following challenges were addressed:
-
-- Increasing training data from 500 to 10,000 sentence pairs
-- Managing memory constraints when attempting 20,000+ sentence pairs
-- Refactoring the application to separate training and inference
-- Migrating from HDF5 (`.h5`) to modern Keras (`.keras`) model storage
-- Improving tokenization consistency
-- Handling vocabulary mismatches and unknown words
-- Adding an interactive translation workflow
-
----
-
-## Future Improvements
-
-Potential future enhancements:
-
-- Word embeddings
-- Attention mechanisms
-- Transformer architecture
-- Better handling of unknown words
-- Confidence scores for translations
-- Web interface using Streamlit
-- Larger training datasets
-- BLEU score evaluation metrics
-
----
-
-## Learning Outcomes
+# 🎯 Learning Outcomes
 
 This project demonstrates:
 
-- Deep learning fundamentals
-- Neural machine translation
-- Seq2Seq architectures
-- Encoder-decoder networks
-- TensorFlow and Keras workflows
-- Model training and persistence
-- Data preprocessing
-- NLP tokenization techniques
-- Git and GitHub project management
+- Neural Machine Translation
+- Encoder-Decoder Architectures
+- Seq2Seq Models
+- LSTM Networks
+- Deep Learning Workflows
+- Model Persistence
+- TensorFlow / Keras Development
+- NLP Tokenization
+- Streamlit Application Development
+- Git & GitHub Project Management
 
 ---
 
-## Topics
+# 🔮 Future Enhancements
 
-Machine Learning • Deep Learning • Natural Language Processing • NLP • Machine Translation • Neural Machine Translation • Seq2Seq • LSTM • Encoder Decoder • TensorFlow • Keras • Python • Artificial Intelligence
+Potential future improvements:
+
+- Word Embeddings
+- Attention Mechanisms
+- Transformer Architecture
+- Translation Confidence Scores
+- BLEU Score Evaluation
+- Larger Training Datasets
+- Multiple Language Support
+- Docker Deployment
+- Cloud Hosting
 
 ---
 
-## License
+# 🏷 Topics
 
-This project is released under the MIT License.
+Machine Learning • Deep Learning • NLP • Natural Language Processing • Machine Translation • Neural Machine Translation • Seq2Seq • Encoder Decoder • LSTM • TensorFlow • Keras • Streamlit • Python • Artificial Intelligence
+
+---
+
+# 📄 License
+
+This project is licensed under the MIT License.
 
 See the LICENSE file for details.
 
----
-
-## Author
-
-Wayne Franz
-
-Created as part of the Codecademy Machine Translation project and expanded into a standalone machine learning portfolio project.
+Codecademy Machine Translation project and expanded into a standalone machine learning portfolio project featuring a Streamlit web application, custom translation interface, statistics dashboard, and modern Keras workflow.
